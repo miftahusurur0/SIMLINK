@@ -6,6 +6,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#102b46">
   <title>Portal SPPG Kuranji 2</title>
+
+  <script>
+    // URL Web App Apps Script (berakhiran /exec). Dipakai hanya saat dibuka dari GitHub/Vercel.
+    const API_URL = "https://script.google.com/macros/s/AKfycbxu1zfSkzKfyeQTOexHM9h5p3-JzFqCucAsNLL1SJRjDVNzvTt12UnjhABrUDmMk9sf7g/exec";
+
+    // Di Apps Script, google.script.run sudah ada dan blok ini tidak aktif.
+    if (!(window.google && google.script && google.script.run)) {
+      window.google = window.google || {};
+      const makeRunner = (onOk, onFail) => new Proxy({}, {
+        get(_, prop) {
+          if (prop === "withSuccessHandler") return h => makeRunner(h, onFail);
+          if (prop === "withFailureHandler") return h => makeRunner(onOk, h);
+          return (...args) => {
+            fetch(API_URL, {
+              method: "POST",
+              headers: { "Content-Type": "text/plain;charset=utf-8" },
+              body: JSON.stringify({ fn: prop, args })
+            })
+              .then(r => r.json())
+              .then(j => {
+                if (!j.ok) throw new Error(j.error);
+                if (onOk) onOk(j.data);
+              })
+              .catch(err => {
+                if (onFail) onFail(err);
+                else console.error(err);
+              });
+          };
+        }
+      });
+      google.script = { run: makeRunner(null, null) };
+    }
+  </script>
+
   <style>
     :root{--navy:#102b46;--navy2:#194a70;--blue:#28658d;--ink:#172b3e;--muted:#748394;--line:#e5ebf0;--bg:#f4f7fa;--white:#fff;--green:#31a879;--shadow:0 12px 35px rgba(23,49,72,.08)}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
@@ -16,9 +50,9 @@
     .main{margin-left:258px;min-height:100vh}.topbar{height:70px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 34px;position:sticky;top:0;z-index:10}.crumb{font-size:12px;color:#83919e}.crumb b{color:#c3ccd4;padding:0 9px}.crumb strong{color:#263d52}.top-right{display:flex;align-items:center;gap:9px;color:#718293;font-size:10px}.dot{width:7px;height:7px;border-radius:50%;background:#31b77d;box-shadow:0 0 0 4px #31b77d20}.user{margin-left:12px;padding-left:14px;border-left:1px solid var(--line);font-weight:bold;color:#42576a}
     .content{padding:30px 34px 22px;max-width:1600px;margin:auto}.hero{min-height:230px;border-radius:19px;background:linear-gradient(115deg,#102b46,#194a70 67%,#2d7190);color:#fff;padding:34px 39px;position:relative;overflow:hidden;display:flex;align-items:center;box-shadow:var(--shadow)}.hero-copy{max-width:560px;position:relative;z-index:2}.eyebrow{font-size:9px;font-weight:800;letter-spacing:1.8px;color:#7392aa}.hero .eyebrow{color:#a8c5d9}.hero h1{font-size:35px;line-height:1.16;margin:13px 0;font-weight:800}.hero h1 em{font-style:normal;color:#a9dfce}.hero p{font-size:12px;line-height:1.8;color:#d1e0eb;max-width:470px;margin:0}.hero-meta{margin-top:22px;font-size:10px;color:#c0d5e4}.hero-meta span{display:inline-block;width:7px;height:7px;border-radius:50%;background:#74dbad;margin-right:8px}.hero-art{position:absolute;right:65px;top:30px;width:245px;height:170px;border-radius:15px;background:#ffffff12;border:1px solid #ffffff20;transform:rotate(-6deg);padding:17px}.art-head{height:8px;width:85%;background:#d7e7ef80;border-radius:8px;margin-bottom:16px}.art-row{height:9px;background:#d7e7ef40;border-radius:8px;margin:10px 0;width:90%}.art-row.short{width:55%}.art-cards{display:flex;gap:8px;margin-top:18px}.art-cards i{height:40px;flex:1;background:#d8eee5;border-radius:7px}.art-cards i:nth-child(2){background:#dce9f5}.art-cards i:nth-child(3){background:#f1e8d8}
     .section-head{display:flex;justify-content:space-between;align-items:end;margin:32px 0 17px}.section-head h2{font-size:19px;margin:7px 0 5px}.section-head p{font-size:11px;color:var(--muted);margin:0}.count{text-align:right;color:#8b9baa}.count strong{display:block;font-size:24px;color:#254c69}.count span{font-size:8px;font-weight:800;letter-spacing:1.5px}
-    .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.card{background:#fff;border:1px solid #e8edf1;border-radius:14px;padding:19px;min-height:194px;display:flex;flex-direction:column;box-shadow:0 5px 18px #19344c08;transition:.2s}.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}.card-top{display:flex;justify-content:space-between;align-items:center}.symbol{width:42px;height:42px;border-radius:12px;background:#e9f1f7;color:#245879;display:grid;place-items:center;font-size:21px}.tag{font-size:8px;font-weight:bold;letter-spacing:.8px;color:#438a70;background:#e6f5ef;padding:6px 8px;border-radius:20px}.card h3{font-size:13px;margin:15px 0 7px}.card p{font-size:10px;line-height:1.65;color:#778797;margin:0 0 16px;flex:1}.card-bottom{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #edf1f4;padding-top:12px;gap:8px}.host{font-size:9px;color:#9aa7b2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.btn{border:0;background:#edf4f8;color:#225575;border-radius:8px;padding:8px 11px;font-size:10px;font-weight:700;cursor:pointer}.btn:hover{filter:brightness(.97)}.btn-primary{background:#173f60;color:white}.btn-danger{background:#fff0f0;color:#b43e3e}.notice{margin-top:22px;padding:14px 16px;border:1px solid #e0eae7;background:#f5faf8;border-radius:11px;display:flex;gap:12px;align-items:center}.notice b{font-size:11px}.notice p{margin:4px 0 0;color:#7d8c96;font-size:10px;line-height:1.5}.footer{padding:24px 0 5px;color:#a0acb6;font-size:9px}
+    .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.card{background:#fff;border:1px solid #e8edf1;border-radius:14px;padding:19px;min-height:194px;display:flex;flex-direction:column;box-shadow:0 5px 18px #19344c08;transition:.2s}.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}.card-top{display:flex;justify-content:space-between;align-items:center}.symbol{width:42px;height:42px;border-radius:12px;background:#e9f1f7;color:#245879;display:grid;place-items:center;font-size:21px}.tag{font-size:8px;font-weight:bold;letter-spacing:.8px;color:#438a70;background:#e6f5ef;padding:6px 8px;border-radius:20px}.card h3{font-size:13px;margin:15px 0 7px}.card p{font-size:10px;line-height:1.65;color:#778797;margin:0 0 16px;flex:1}.card-bottom{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #edf1f4;padding-top:12px;gap:8px}.host{font-size:9px;color:#9aa7b2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.btn{border:0;background:#edf4f8;color:#225575;border-radius:8px;padding:8px 11px;font-size:10px;font-weight:700;cursor:pointer}.btn:hover{filter:brightness(.97)}.btn:disabled{opacity:.6;cursor:default}.btn-primary{background:#173f60;color:white}.btn-danger{background:#fff0f0;color:#b43e3e}.notice{margin-top:22px;padding:14px 16px;border:1px solid #e0eae7;background:#f5faf8;border-radius:11px;display:flex;gap:12px;align-items:center}.notice b{font-size:11px}.notice p{margin:4px 0 0;color:#7d8c96;font-size:10px;line-height:1.5}.footer{padding:24px 0 5px;color:#a0acb6;font-size:9px}
     .workspace{min-height:calc(100vh - 120px)}.work-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin:0 0 15px}.work-title{display:flex;align-items:center;gap:12px}.work-title h1{font-size:19px;margin:4px 0}.work-title p{font-size:10px;color:#83919e;margin:0}.work-symbol{width:45px;height:45px;border-radius:12px;background:#e9f1f7;color:#245879;display:grid;place-items:center;font-size:21px}.tools{display:flex;gap:7px;flex-wrap:wrap}.tool{border:1px solid #dfe7ed;background:#fff;border-radius:8px;padding:9px 11px;font-size:10px;font-weight:bold;color:#4d6476;cursor:pointer}.tool.primary{background:#173f60;color:white;border-color:#173f60}.embed-note{display:flex;gap:9px;background:#fff9e9;border:1px solid #f2e6c6;color:#816b39;border-radius:9px;padding:10px 13px;font-size:10px;line-height:1.55;margin-bottom:11px}.frame-wrap{height:calc(100vh - 255px);min-height:450px;background:white;border:1px solid #e0e7ed;border-radius:11px;overflow:hidden;position:relative}.frame-wrap iframe{border:0;width:100%;height:100%;background:#fff}.loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#3d5d75;background:#fff;z-index:2}.loading.hide{display:none}.spinner{width:27px;height:27px;border:3px solid #e5edf2;border-top-color:#28658d;border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.work-foot{display:flex;justify-content:space-between;gap:10px;margin-top:9px;color:#96a2ac;font-size:9px}.hidden{display:none!important}
-    .modal-backdrop{position:fixed;inset:0;background:#071a2b88;z-index:50;display:grid;place-items:center;padding:16px}.modal{background:white;border-radius:16px;width:min(520px,100%);padding:22px;box-shadow:0 25px 80px #071a2b55;max-height:90vh;overflow:auto}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}.modal-head h2{font-size:17px;margin:0}.x{border:0;background:#f0f3f6;border-radius:8px;width:32px;height:32px;font-size:19px;cursor:pointer}.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:10px;font-weight:bold;color:#52687a}.field input,.field textarea,.field select{border:1px solid #dce5eb;border-radius:8px;padding:11px;font-size:12px;outline:none;width:100%}.field input:focus,.field textarea:focus{border-color:#4d8bb1;box-shadow:0 0 0 3px #4d8bb11c}.field textarea{min-height:70px;resize:vertical}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.admin-row{display:flex;gap:8px;align-items:center}.admin-row input{flex:1}.toast{position:fixed;right:20px;bottom:20px;background:#173f60;color:white;padding:12px 16px;border-radius:9px;font-size:11px;box-shadow:var(--shadow);z-index:80;max-width:calc(100% - 40px)}.toast.error{background:#a63c3c}.hamburger,.close-menu,.scrim{display:none}
+    .modal-backdrop{position:fixed;inset:0;background:#071a2b88;z-index:50;display:grid;place-items:center;padding:16px}.modal{background:white;border-radius:16px;width:min(520px,100%);padding:22px;box-shadow:0 25px 80px #071a2b55;max-height:90vh;overflow:auto}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}.modal-head h2{font-size:17px;margin:0}.x{border:0;background:#f0f3f6;border-radius:8px;width:32px;height:32px;font-size:19px;cursor:pointer}.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:10px;font-weight:bold;color:#52687a}.field input,.field textarea{border:1px solid #dce5eb;border-radius:8px;padding:11px;font-size:12px;outline:none;width:100%}.field input:focus,.field textarea:focus{border-color:#4d8bb1;box-shadow:0 0 0 3px #4d8bb11c}.field textarea{min-height:70px;resize:vertical}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px}.manage-item{display:flex;align-items:center;gap:8px;border:1px solid #e7edf1;border-radius:9px;padding:10px;margin:7px 0}.manage-item .meta{flex:1;min-width:0}.manage-item .meta b{font-size:11px}.manage-item .meta small{display:block;font-size:9px;color:#8a98a6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.manage-item .icon{font-size:19px}.toast{position:fixed;right:20px;bottom:20px;background:#173f60;color:white;padding:12px 16px;border-radius:9px;font-size:11px;box-shadow:var(--shadow);z-index:80;max-width:calc(100% - 40px)}.toast.error{background:#a63c3c}.hamburger,.close-menu,.scrim{display:none}
     @media(max-width:1050px){.content{padding:24px}.topbar{padding:0 24px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-art{right:15px;opacity:.7}}
     @media(max-width:720px){.sidebar{transform:translateX(-100%);width:280px}.sidebar.open{transform:translateX(0)}.scrim.show{display:block;position:fixed;inset:0;background:#071a2b80;z-index:19}.main{margin-left:0}.topbar{height:61px;padding:0 15px;gap:12px}.hamburger{display:block;border:0;background:#eef3f7;border-radius:8px;padding:8px 10px;color:#214e6d}.top-right .status-text,.top-right .dot{display:none}.user{margin:0;padding:0;border:0}.content{padding:17px 14px}.hero{padding:26px 22px;min-height:225px}.hero h1{font-size:28px}.hero-art{right:-95px;opacity:.25}.section-head{margin-top:26px}.section-head h2{font-size:16px}.section-head p{max-width:250px;line-height:1.5}.count{display:none}.cards{grid-template-columns:1fr;gap:11px}.card{min-height:175px;padding:16px}.work-head{align-items:flex-start;flex-direction:column}.tools{width:100%}.tool{flex:1}.frame-wrap{height:calc(100dvh - 300px);min-height:400px}.work-foot{flex-direction:column}.close-menu{display:block;margin-left:auto;border:0;background:transparent;color:white;font-size:22px}.brand{padding-bottom:27px}.form-row{grid-template-columns:1fr}}
   </style>
@@ -49,19 +83,38 @@
     <div class="content">
       <section id="homeView">
         <div class="hero">
-          <div class="hero-copy"><div class="eyebrow">PUSAT INFORMASI DAN DATA</div><h1>Portal Terpadu<br><em>SPPG Kuranji 2</em></h1><p>Akses seluruh sistem informasi Penerima Manfaat dalam satu tempat, lebih praktis dan terorganisir.</p><div class="hero-meta"><span></span>Satu portal · Aplikasi tetap mandiri</div></div>
+          <div class="hero-copy">
+            <div class="eyebrow">PUSAT INFORMASI DAN DATA</div>
+            <h1>Portal Terpadu<br><em>SPPG Kuranji 2</em></h1>
+            <p>Akses seluruh sistem informasi Penerima Manfaat dalam satu tempat, lebih praktis dan terorganisir.</p>
+            <div class="hero-meta"><span></span>Satu portal · Aplikasi tetap mandiri</div>
+          </div>
           <div class="hero-art" aria-hidden="true"><div class="art-head"></div><div class="art-row"></div><div class="art-row short"></div><div class="art-cards"><i></i><i></i><i></i></div></div>
         </div>
-        <div class="section-head"><div><div class="eyebrow">APLIKASI TERSEDIA</div><h2>Pilih sistem yang ingin dibuka</h2><p>Website akan ditampilkan di area portal tanpa membuka tab baru.</p></div><div class="count"><strong id="appCount">00</strong><span>APLIKASI</span></div></div>
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">APLIKASI TERSEDIA</div>
+            <h2>Pilih sistem yang ingin dibuka</h2>
+            <p>Website akan ditampilkan di area portal tanpa membuka tab baru.</p>
+          </div>
+          <div class="count"><strong id="appCount">00</strong><span>APLIKASI</span></div>
+        </div>
         <div class="cards" id="appCards"><div class="card">Memuat daftar aplikasi...</div></div>
-        <div class="notice"><div style="font-size:20px;color:#398a6b">↗</div><div><b>Setiap aplikasi tetap berdiri sendiri</b><p>Login, database Google Spreadsheet, dan backend setiap website tidak digabungkan.</p></div></div>
+        <div class="notice">
+          <div style="font-size:20px;color:#398a6b">↗</div>
+          <div><b>Setiap aplikasi tetap berdiri sendiri</b><p>Login, database Google Spreadsheet, dan backend setiap website tidak digabungkan.</p></div>
+        </div>
         <footer class="footer">© <span id="year"></span> SPPG Kota Serang Taktakan Kuranji 2 · Portal Informasi Internal</footer>
       </section>
 
       <section id="workspaceView" class="workspace hidden">
         <div class="work-head">
           <div class="work-title"><div class="work-symbol" id="activeIcon">▣</div><div><div class="eyebrow">APLIKASI SPPG</div><h1 id="activeName">Aplikasi</h1><p id="activeDescription"></p></div></div>
-          <div class="tools"><button class="tool" id="reloadBtn">↻ Muat ulang</button><button class="tool" id="fullscreenBtn">⛶ Layar penuh</button><button class="tool primary" id="directBtn">↗ Buka langsung</button></div>
+          <div class="tools">
+            <button class="tool" id="reloadBtn">↻ Muat ulang</button>
+            <button class="tool" id="fullscreenBtn">⛶ Layar penuh</button>
+            <button class="tool primary" id="directBtn">↗ Buka langsung</button>
+          </div>
         </div>
         <div class="embed-note"><span>ⓘ</span><span>Jika aplikasi tidak tampil, kemungkinan website tujuan melarang iframe melalui pengaturan keamanan. Gunakan tombol <b>Buka langsung</b> sebagai alternatif pada tab yang sama.</span></div>
         <div class="frame-wrap" id="frameWrap">
@@ -73,124 +126,413 @@
     </div>
   </main>
 
+  <!-- Modal admin -->
   <div class="modal-backdrop hidden" id="adminModal">
     <div class="modal">
-      <div class="modal-head"><h2 id="modalTitle">Kelola aplikasi</h2><button class="x" id="closeModal">×</button></div>
-      <div id="pinStep">
-        <p style="font-size:11px;color:#718293;line-height:1.6">Masukkan PIN administrator untuk menambah, mengubah, atau menghapus link aplikasi.</p>
-        <div class="field"><label>PIN ADMIN</label><input id="adminPin" type="password" autocomplete="current-password" placeholder="Masukkan PIN admin"></div>
-        <div class="modal-actions"><button class="btn" id="cancelPin">Batal</button><button class="btn btn-primary" id="verifyPin">Lanjutkan</button></div>
+      <div class="modal-head"><h2 id="modalTitle">Kelola aplikasi</h2><button class="x" id="closeModal" aria-label="Tutup">×</button></div>
+
+      <!-- 1. Login username & password -->
+      <div id="loginStep">
+        <p style="font-size:11px;color:#718293;line-height:1.6">Login administrator untuk mengelola tautan aplikasi portal.</p>
+        <div class="field"><label for="adminUsername">USERNAME</label><input id="adminUsername" autocomplete="username" placeholder="Username admin"></div>
+        <div class="field"><label for="adminPassword">PASSWORD</label><input id="adminPassword" type="password" autocomplete="current-password" placeholder="Password admin"></div>
+        <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn" id="forgotOpen">Lupa password?</button></div>
+        <div class="modal-actions"><button class="btn" id="cancelLogin">Batal</button><button class="btn btn-primary" id="loginButton">Login</button></div>
       </div>
+
+      <!-- 2. Lupa password via email -->
+      <div id="forgotStep" class="hidden">
+        <p style="font-size:11px;color:#718293;line-height:1.6">Masukkan email pemulihan admin. Kode OTP akan dikirim ke email tersebut dan berlaku 10 menit.</p>
+        <div class="field"><label for="resetEmail">EMAIL PEMULIHAN</label><input id="resetEmail" type="email" autocomplete="email" placeholder="email-admin@contoh.com"></div>
+        <div class="modal-actions"><button class="btn" id="backLogin1">Kembali</button><button class="btn btn-primary" id="sendOtp">Kirim kode OTP</button></div>
+        <div id="otpFields" class="hidden">
+          <div class="field"><label for="resetOtp">KODE OTP</label><input id="resetOtp" inputmode="numeric" maxlength="6" placeholder="6 digit kode dari email"></div>
+          <div class="field"><label for="resetNewPassword">PASSWORD BARU</label><input id="resetNewPassword" type="password" autocomplete="new-password" placeholder="Minimal 10 karakter"></div>
+          <div class="modal-actions"><button class="btn btn-primary" id="resetPasswordButton">Reset password</button></div>
+        </div>
+      </div>
+
+      <!-- 3. Kelola (setelah login) -->
       <div id="manageStep" class="hidden">
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px"><button class="btn btn-primary" id="newAppBtn">＋ Tambah aplikasi</button><button class="btn" id="doneManage">Selesai</button></div>
+        <div class="toolbar">
+          <button class="btn btn-primary" id="newAppBtn">＋ Tambah aplikasi</button>
+          <button class="btn" id="changePasswordOpen">Ubah password</button>
+          <button class="btn" id="adminLogout">Keluar</button>
+        </div>
+
+        <!-- 3a. Ubah password -->
+        <div id="changePasswordForm" class="hidden">
+          <div class="field"><label for="oldAdminPassword">PASSWORD LAMA</label><input id="oldAdminPassword" type="password" autocomplete="current-password"></div>
+          <div class="field"><label for="newAdminPassword">PASSWORD BARU</label><input id="newAdminPassword" type="password" autocomplete="new-password" placeholder="Minimal 10 karakter"></div>
+          <div class="modal-actions"><button class="btn" id="cancelChangePassword">Batal</button><button class="btn btn-primary" id="saveNewPassword">Simpan password</button></div>
+        </div>
+
+        <!-- 3b. Daftar link -->
         <div id="manageList"></div>
+        <div class="modal-actions" id="manageFooter"><button class="btn" id="doneManage">Selesai</button></div>
+
+        <!-- 3c. Form link -->
         <div id="appForm" class="hidden">
           <div class="form-row">
-            <div class="field"><label>Nama aplikasi *</label><input id="fName" maxlength="100" placeholder="Contoh: Sistem Data PM"></div>
-            <div class="field"><label>Kategori</label><input id="fCategory" maxlength="60" placeholder="Data Penerima"></div>
+            <div class="field"><label for="fName">Nama aplikasi *</label><input id="fName" maxlength="100" placeholder="Contoh: Sistem Data PM"></div>
+            <div class="field"><label for="fCategory">Kategori</label><input id="fCategory" maxlength="60" placeholder="Data Penerima"></div>
           </div>
-          <div class="field"><label>URL website (HTTPS) *</label><input id="fUrl" type="url" placeholder="https://contoh.vercel.app/"></div>
-          <div class="field"><label>Deskripsi</label><textarea id="fDescription" maxlength="300" placeholder="Keterangan singkat aplikasi"></textarea></div>
+          <div class="field"><label for="fUrl">URL website (HTTPS) *</label><input id="fUrl" type="url" placeholder="https://contoh.vercel.app/"></div>
+          <div class="field"><label for="fDescription">Deskripsi</label><textarea id="fDescription" maxlength="300" placeholder="Keterangan singkat aplikasi"></textarea></div>
           <div class="form-row">
-            <div class="field"><label>Ikon / simbol</label><input id="fIcon" maxlength="8" value="▣"></div>
-            <div class="field"><label>Urutan tampil</label><input id="fOrder" type="number" min="1" value="1"></div>
+            <div class="field"><label for="fIcon">Ikon / simbol</label><input id="fIcon" maxlength="8" value="▣"></div>
+            <div class="field"><label for="fOrder">Urutan tampil</label><input id="fOrder" type="number" min="1" value="1"></div>
           </div>
           <div class="modal-actions"><button class="btn" id="cancelForm">Batal</button><button class="btn btn-primary" id="saveApp">Simpan link</button></div>
         </div>
       </div>
     </div>
   </div>
+
   <div class="toast hidden" id="toast"></div>
 
   <script>
     let apps = [];
     let activeId = "home";
-    let adminPin = "";
+    let adminToken = "";
     let editingId = null;
+
     const $ = id => document.getElementById(id);
     const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-    function toast(message, error=false){const el=$("toast");el.textContent=message;el.className="toast"+(error?" error":"");setTimeout(()=>el.classList.add("hidden"),3500);}
-    function serverError(err){toast(err && err.message ? err.message : String(err),true);}
-    function loadApps(){google.script.run.withSuccessHandler(data=>{apps=data||[];renderAll();}).withFailureHandler(serverError).getApps();}
-    function renderAll(){renderNav();renderCards();$("appCount").textContent=String(apps.length).padStart(2,"0");}
-    function renderNav(){
-      const items=[{id:"home",name:"Beranda",icon:"⌂"}].concat(apps);
-      $("navList").innerHTML=items.map(a=>`<button class="nav-item ${activeId===a.id?"active":""}" data-id="${esc(a.id)}"><span class="nav-icon">${esc(a.icon)}</span><span>${esc(a.id==="home"?"Beranda":a.name)}</span></button>`).join("")+
-        `<button class="nav-item" id="manageLinks"><span class="nav-icon">⚙</span><span>Kelola Link</span></button>`;
-      $("navList").querySelectorAll("[data-id]").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.id)));
-      $("manageLinks").addEventListener("click",openAdmin);
+    const rpc = (fn, ...args) => new Promise((resolve, reject) =>
+      google.script.run.withSuccessHandler(resolve).withFailureHandler(reject)[fn](...args)
+    );
+
+    function toast(message, error = false) {
+      const el = $("toast");
+      el.textContent = message;
+      el.className = "toast" + (error ? " error" : "");
+      clearTimeout(el._t);
+      el._t = setTimeout(() => el.classList.add("hidden"), 3500);
     }
-    function renderCards(){
-      if(!apps.length){$("appCards").innerHTML='<div class="card"><h3>Belum ada aplikasi</h3><p>Tambahkan link melalui menu Kelola Link.</p></div>';return;}
-      $("appCards").innerHTML=apps.map(a=>`<article class="card"><div class="card-top"><div class="symbol">${esc(a.icon)}</div><span class="tag">${esc(a.category||"APLIKASI")}</span></div><h3>${esc(a.name)}</h3><p>${esc(a.description||"Aplikasi SPPG Kuranji 2")}</p><div class="card-bottom"><span class="host">${esc(hostOf(a.url))}</span><button class="btn" data-open="${esc(a.id)}">Buka aplikasi ↗</button></div></article>`).join("");
-      $("appCards").querySelectorAll("[data-open]").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.open)));
+    function showError(err) {
+      const msg = err && err.message ? err.message : String(err);
+      if (msg.includes("Sesi admin berakhir")) {
+        adminToken = "";
+        showPanel("loginStep");
+      }
+      toast(msg, true);
     }
-    function hostOf(url){try{return new URL(url).hostname}catch(e){return url}}
-    function navigate(id, updateHash=true){
-      const app=apps.find(x=>x.id===id);
-      activeId=app?app.id:"home";
-      $("homeView").classList.toggle("hidden",!!app);$("workspaceView").classList.toggle("hidden",!app);
-      $("crumbTitle").textContent=app?app.name:"Beranda";
-      if(app){
-        $("activeName").textContent=app.name;$("activeDescription").textContent=app.description||"";
-        $("activeIcon").textContent=app.icon;$("activeUrl").textContent=app.url;
-        $("directBtn").onclick=()=>{window.top.location.href=app.url};
-        $("reloadBtn").onclick=()=>loadFrame(app,true);
-        $("fullscreenBtn").onclick=()=>{const el=$("frameWrap");if(!document.fullscreenElement)el.requestFullscreen?.();else document.exitFullscreen?.();};
-        if($("appFrame").dataset.id!==app.id)loadFrame(app,false);
-      }else{$("appFrame").src="about:blank";$("appFrame").dataset.id="";}
+    function setBusy(btn, busy, label) {
+      btn.disabled = busy;
+      btn.textContent = label;
+    }
+
+    /* ---------- Data & render portal ---------- */
+    async function loadApps() {
+      try {
+        apps = (await rpc("getApps")) || [];
+        renderAll();
+      } catch (err) {
+        showError(err);
+      }
+    }
+    function renderAll() {
       renderNav();
-      if(updateHash)history.pushState({id:activeId},"",activeId==="home"?"#beranda":"#"+encodeURIComponent(activeId));
+      renderCards();
+      $("appCount").textContent = String(apps.length).padStart(2, "0");
+    }
+    function renderNav() {
+      const items = [{ id: "home", name: "Beranda", icon: "⌂" }].concat(apps);
+      $("navList").innerHTML = items.map(a =>
+        `<button class="nav-item ${activeId === a.id ? "active" : ""}" data-id="${esc(a.id)}"><span class="nav-icon">${esc(a.icon)}</span><span>${esc(a.name)}</span></button>`
+      ).join("") +
+        `<button class="nav-item" id="manageLinks"><span class="nav-icon">⚙</span><span>Kelola Link</span></button>`;
+      $("navList").querySelectorAll("[data-id]").forEach(b => b.addEventListener("click", () => navigate(b.dataset.id)));
+      $("manageLinks").addEventListener("click", openAdmin);
+    }
+    function renderCards() {
+      if (!apps.length) {
+        $("appCards").innerHTML = '<div class="card"><h3>Belum ada aplikasi</h3><p>Tambahkan link melalui menu Kelola Link.</p></div>';
+        return;
+      }
+      $("appCards").innerHTML = apps.map(a =>
+        `<article class="card"><div class="card-top"><div class="symbol">${esc(a.icon)}</div><span class="tag">${esc(a.category || "APLIKASI")}</span></div><h3>${esc(a.name)}</h3><p>${esc(a.description || "Aplikasi SPPG Kuranji 2")}</p><div class="card-bottom"><span class="host">${esc(hostOf(a.url))}</span><button class="btn" data-open="${esc(a.id)}">Buka aplikasi ↗</button></div></article>`
+      ).join("");
+      $("appCards").querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", () => navigate(b.dataset.open)));
+    }
+    function hostOf(url) {
+      try { return new URL(url).hostname; } catch (e) { return url; }
+    }
+
+    /* ---------- Navigasi ---------- */
+    function navigate(id, updateHash = true) {
+      const app = apps.find(x => x.id === id);
+      activeId = app ? app.id : "home";
+      $("homeView").classList.toggle("hidden", !!app);
+      $("workspaceView").classList.toggle("hidden", !app);
+      $("crumbTitle").textContent = app ? app.name : "Beranda";
+      if (app) {
+        $("activeName").textContent = app.name;
+        $("activeDescription").textContent = app.description || "";
+        $("activeIcon").textContent = app.icon;
+        $("activeUrl").textContent = app.url;
+        $("directBtn").onclick = () => { window.top.location.href = app.url; };
+        $("reloadBtn").onclick = () => loadFrame(app, true);
+        $("fullscreenBtn").onclick = () => {
+          const el = $("frameWrap");
+          if (!document.fullscreenElement) el.requestFullscreen?.();
+          else document.exitFullscreen?.();
+        };
+        if ($("appFrame").dataset.id !== app.id) loadFrame(app, false);
+      } else {
+        $("appFrame").src = "about:blank";
+        $("appFrame").dataset.id = "";
+      }
+      renderNav();
+      if (updateHash) {
+        history.pushState({ id: activeId }, "", activeId === "home" ? "#beranda" : "#" + encodeURIComponent(activeId));
+      }
       closeSidebar();
     }
-    function loadFrame(app,force){
-      const frame=$("appFrame");if(!force&&frame.dataset.id===app.id)return;
-      $("loading").classList.remove("hidden");frame.dataset.id=app.id;frame.src=app.url;
-      let done=false;const finish=()=>{if(done)return;done=true;$("loading").classList.add("hidden");};
-      frame.onload=finish;setTimeout(finish,10000);
+    function loadFrame(app, force) {
+      const frame = $("appFrame");
+      if (!force && frame.dataset.id === app.id) return;
+      $("loading").classList.remove("hidden");
+      frame.dataset.id = app.id;
+      frame.src = app.url;
+      let done = false;
+      const finish = () => { if (done) return; done = true; $("loading").classList.add("hidden"); };
+      frame.onload = finish;
+      setTimeout(finish, 10000);
     }
-    function routeFromHash(){const id=decodeURIComponent(location.hash.replace(/^#/,""));navigate(apps.some(a=>a.id===id)?id:"home",false);}
-    function openAdmin(){$("adminModal").classList.remove("hidden");$("pinStep").classList.remove("hidden");$("manageStep").classList.add("hidden");$("adminPin").value="";$("adminPin").focus();}
-    function closeAdmin(){$("adminModal").classList.add("hidden");}
-    function verifyAdmin(){
-      const pin=$("adminPin").value;
-      // Verifikasi dilakukan server saat operasi simpan/hapus; PIN tidak pernah disimpan di Spreadsheet.
-      if(!pin){toast("Masukkan PIN admin.",true);return;}
-      adminPin=pin;$("pinStep").classList.add("hidden");$("manageStep").classList.remove("hidden");renderManageList();
+    function routeFromHash() {
+      const id = decodeURIComponent(location.hash.replace(/^#/, ""));
+      navigate(apps.some(a => a.id === id) ? id : "home", false);
     }
-    function renderManageList(){
-      $("appForm").classList.add("hidden");
-      $("manageList").innerHTML=apps.map(a=>`<div style="display:flex;align-items:center;gap:8px;border:1px solid #e7edf1;border-radius:9px;padding:10px;margin:7px 0"><div style="font-size:19px">${esc(a.icon)}</div><div style="flex:1;min-width:0"><b style="font-size:11px">${esc(a.name)}</b><div style="font-size:9px;color:#8a98a6;overflow:hidden;text-overflow:ellipsis">${esc(a.url)}</div></div><button class="btn" data-edit="${esc(a.id)}">Edit</button><button class="btn btn-danger" data-delete="${esc(a.id)}">Hapus</button></div>`).join("")||'<p style="font-size:11px;color:#82909c">Belum ada link.</p>';
-      $("manageList").querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>showForm(b.dataset.edit)));
-      $("manageList").querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",()=>removeApp(b.dataset.delete)));
+    function closeSidebar() {
+      $("sidebar").classList.remove("open");
+      $("scrim").classList.remove("show");
     }
-    function showForm(id=null){
-      editingId=id;const a=apps.find(x=>x.id===id)||{name:"",category:"Aplikasi",url:"",description:"",icon:"▣",order:apps.length+1};
-      $("manageList").classList.add("hidden");$("appForm").classList.remove("hidden");
-      $("fName").value=a.name;$("fCategory").value=a.category;$("fUrl").value=a.url;$("fDescription").value=a.description;$("fIcon").value=a.icon;$("fOrder").value=a.order;
+
+    /* ---------- Admin: panel & tampilan ---------- */
+    function showPanel(panel) {
+      ["loginStep", "forgotStep", "manageStep"].forEach(id => $(id).classList.toggle("hidden", id !== panel));
     }
-    function hideForm(){$("appForm").classList.add("hidden");$("manageList").classList.remove("hidden");}
-    function formPayload(){return {name:$("fName").value,category:$("fCategory").value,url:$("fUrl").value,description:$("fDescription").value,icon:$("fIcon").value,order:$("fOrder").value,active:true};}
-    function saveApp(){
-      const payload=formPayload();if(!payload.name.trim()||!payload.url.trim()){toast("Nama dan URL wajib diisi.",true);return;}
-      if(!/^https:\/\//i.test(payload.url.trim())){toast("URL harus diawali https://",true);return;}
-      const button=$("saveApp");button.disabled=true;button.textContent="Menyimpan...";
-      const runner=google.script.run.withSuccessHandler(result=>{button.disabled=false;button.textContent="Simpan link";toast(result.message);loadApps();renderManageList();hideForm();}).withFailureHandler(err=>{button.disabled=false;button.textContent="Simpan link";serverError(err);});
-      if(editingId)runner.updateApp(editingId,payload,adminPin);else runner.addApp(payload,adminPin);
+    function showManageView(view) {
+      // view: "list" | "form" | "password"
+      $("manageList").classList.toggle("hidden", view !== "list");
+      $("manageFooter").classList.toggle("hidden", view !== "list");
+      $("appForm").classList.toggle("hidden", view !== "form");
+      $("changePasswordForm").classList.toggle("hidden", view !== "password");
     }
-    function removeApp(id){
-      const a=apps.find(x=>x.id===id);if(!a||!confirm("Hapus link "+a.name+" dari portal?"))return;
-      google.script.run.withSuccessHandler(result=>{toast(result.message);if(activeId===id)navigate("home");loadApps();}).withFailureHandler(serverError).deleteApp(id,adminPin);
+    function openAdmin() {
+      $("adminModal").classList.remove("hidden");
+      if (adminToken) {
+        showPanel("manageStep");
+        showManageView("list");
+        renderManageList();
+      } else {
+        showPanel("loginStep");
+        $("adminUsername").value = "";
+        $("adminPassword").value = "";
+        $("adminUsername").focus();
+      }
     }
-    function closeSidebar(){$("sidebar").classList.remove("open");$("scrim").classList.remove("show");}
-    $("menuToggle").addEventListener("click",()=>{$("sidebar").classList.add("open");$("scrim").classList.add("show");});
-    $("closeMenu").addEventListener("click",closeSidebar);$("scrim").addEventListener("click",closeSidebar);
-    $("closeModal").addEventListener("click",closeAdmin);$("cancelPin").addEventListener("click",closeAdmin);
-    $("verifyPin").addEventListener("click",verifyAdmin);$("adminPin").addEventListener("keydown",e=>{if(e.key==="Enter")verifyAdmin();});
-    $("newAppBtn").addEventListener("click",()=>showForm());$("doneManage").addEventListener("click",closeAdmin);
-    $("cancelForm").addEventListener("click",hideForm);$("saveApp").addEventListener("click",saveApp);
-    window.addEventListener("popstate",routeFromHash);$("year").textContent=new Date().getFullYear();
-    loadApps();
+    function closeAdmin() {
+      $("adminModal").classList.add("hidden");
+    }
+
+    /* ---------- Login ---------- */
+    async function verifyAdmin() {
+      const username = $("adminUsername").value.trim();
+      const password = $("adminPassword").value;
+      if (!username || !password) { toast("Masukkan username dan password.", true); return; }
+      const b = $("loginButton");
+      setBusy(b, true, "Memeriksa...");
+      try {
+        const r = await rpc("adminLogin", username, password);
+        adminToken = r.token;
+        $("adminPassword").value = "";
+        showPanel("manageStep");
+        showManageView("list");
+        renderManageList();
+        toast("Login admin berhasil.");
+      } catch (err) {
+        showError(err);
+      } finally {
+        setBusy(b, false, "Login");
+      }
+    }
+    async function logoutAdmin() {
+      try { await rpc("adminLogout", adminToken); } catch (e) { /* sesi tetap dihapus di sisi klien */ }
+      adminToken = "";
+      closeAdmin();
+      toast("Anda telah keluar dari sesi admin.");
+    }
+
+    /* ---------- Lupa password ---------- */
+    function openForgot() {
+      $("resetEmail").value = "";
+      $("resetOtp").value = "";
+      $("resetNewPassword").value = "";
+      $("otpFields").classList.add("hidden");
+      showPanel("forgotStep");
+    }
+    async function requestOtp() {
+      const email = $("resetEmail").value.trim();
+      if (!email) { toast("Masukkan email pemulihan.", true); return; }
+      const b = $("sendOtp");
+      setBusy(b, true, "Mengirim...");
+      try {
+        const r = await rpc("requestPasswordReset", email);
+        $("otpFields").classList.remove("hidden");
+        toast(r.message);
+      } catch (err) {
+        showError(err);
+      } finally {
+        setBusy(b, false, "Kirim ulang kode");
+      }
+    }
+    async function doResetPassword() {
+      const email = $("resetEmail").value.trim();
+      const otp = $("resetOtp").value.trim();
+      const pw = $("resetNewPassword").value;
+      if (!otp || !pw) { toast("Lengkapi kode OTP dan password baru.", true); return; }
+      const b = $("resetPasswordButton");
+      setBusy(b, true, "Memproses...");
+      try {
+        const r = await rpc("resetAdminPassword", email, otp, pw);
+        toast(r.message);
+        $("resetOtp").value = "";
+        $("resetNewPassword").value = "";
+        $("adminUsername").value = "";
+        $("adminPassword").value = "";
+        showPanel("loginStep");
+      } catch (err) {
+        showError(err);
+      } finally {
+        setBusy(b, false, "Reset password");
+      }
+    }
+
+    /* ---------- Ubah password ---------- */
+    function openChangePassword() {
+      $("oldAdminPassword").value = "";
+      $("newAdminPassword").value = "";
+      showManageView("password");
+    }
+    async function saveChangedPassword() {
+      const oldPw = $("oldAdminPassword").value;
+      const newPw = $("newAdminPassword").value;
+      if (!oldPw || !newPw) { toast("Lengkapi password lama dan baru.", true); return; }
+      const b = $("saveNewPassword");
+      setBusy(b, true, "Menyimpan...");
+      try {
+        const r = await rpc("changeAdminPassword", adminToken, oldPw, newPw);
+        adminToken = "";
+        closeAdmin();
+        toast(r.message);
+      } catch (err) {
+        showError(err);
+      } finally {
+        setBusy(b, false, "Simpan password");
+      }
+    }
+
+    /* ---------- CRUD link ---------- */
+    function renderManageList() {
+      $("manageList").innerHTML = apps.map(a =>
+        `<div class="manage-item"><div class="icon">${esc(a.icon)}</div><div class="meta"><b>${esc(a.name)}</b><small>${esc(a.url)}</small></div><button class="btn" data-edit="${esc(a.id)}">Edit</button><button class="btn btn-danger" data-delete="${esc(a.id)}">Hapus</button></div>`
+      ).join("") || '<p style="font-size:11px;color:#82909c">Belum ada link.</p>';
+      $("manageList").querySelectorAll("[data-edit]").forEach(b => b.addEventListener("click", () => showForm(b.dataset.edit)));
+      $("manageList").querySelectorAll("[data-delete]").forEach(b => b.addEventListener("click", () => removeApp(b.dataset.delete)));
+    }
+    function showForm(id = null) {
+      editingId = id;
+      const a = apps.find(x => x.id === id) || { name: "", category: "Aplikasi", url: "", description: "", icon: "▣", order: apps.length + 1 };
+      $("fName").value = a.name;
+      $("fCategory").value = a.category;
+      $("fUrl").value = a.url;
+      $("fDescription").value = a.description;
+      $("fIcon").value = a.icon;
+      $("fOrder").value = a.order;
+      showManageView("form");
+    }
+    function formPayload() {
+      return {
+        name: $("fName").value,
+        category: $("fCategory").value,
+        url: $("fUrl").value,
+        description: $("fDescription").value,
+        icon: $("fIcon").value,
+        order: $("fOrder").value,
+        active: true
+      };
+    }
+    async function saveApp() {
+      const payload = formPayload();
+      if (!payload.name.trim() || !payload.url.trim()) { toast("Nama dan URL wajib diisi.", true); return; }
+      if (!/^https:\/\//i.test(payload.url.trim())) { toast("URL harus diawali https://", true); return; }
+      const b = $("saveApp");
+      setBusy(b, true, "Menyimpan...");
+      try {
+        const r = editingId
+          ? await rpc("updateApp", editingId, payload, adminToken)
+          : await rpc("addApp", payload, adminToken);
+        toast(r.message);
+        await loadApps();
+        showManageView("list");
+        renderManageList();
+      } catch (err) {
+        showError(err);
+      } finally {
+        setBusy(b, false, "Simpan link");
+      }
+    }
+    async function removeApp(id) {
+      const a = apps.find(x => x.id === id);
+      if (!a || !confirm("Hapus link " + a.name + " dari portal?")) return;
+      try {
+        const r = await rpc("deleteApp", id, adminToken);
+        toast(r.message);
+        if (activeId === id) navigate("home");
+        await loadApps();
+        renderManageList();
+      } catch (err) {
+        showError(err);
+      }
+    }
+
+    /* ---------- Event listener ---------- */
+    $("menuToggle").addEventListener("click", () => {
+      $("sidebar").classList.add("open");
+      $("scrim").classList.add("show");
+    });
+    $("closeMenu").addEventListener("click", closeSidebar);
+    $("scrim").addEventListener("click", closeSidebar);
+
+    $("closeModal").addEventListener("click", closeAdmin);
+    $("cancelLogin").addEventListener("click", closeAdmin);
+    $("loginButton").addEventListener("click", verifyAdmin);
+    $("adminPassword").addEventListener("keydown", e => { if (e.key === "Enter") verifyAdmin(); });
+
+    $("forgotOpen").addEventListener("click", openForgot);
+    $("backLogin1").addEventListener("click", () => showPanel("loginStep"));
+    $("sendOtp").addEventListener("click", requestOtp);
+    $("resetPasswordButton").addEventListener("click", doResetPassword);
+
+    $("changePasswordOpen").addEventListener("click", openChangePassword);
+    $("cancelChangePassword").addEventListener("click", () => { showManageView("list"); });
+    $("saveNewPassword").addEventListener("click", saveChangedPassword);
+    $("adminLogout").addEventListener("click", logoutAdmin);
+
+    $("newAppBtn").addEventListener("click", () => showForm());
+    $("doneManage").addEventListener("click", closeAdmin);
+    $("cancelForm").addEventListener("click", () => showManageView("list"));
+    $("saveApp").addEventListener("click", saveApp);
+
+    window.addEventListener("popstate", routeFromHash);
+    $("year").textContent = new Date().getFullYear();
+
+    loadApps().then(() => {
+      if (location.hash) routeFromHash();
+    });
   </script>
 </body>
 </html>
