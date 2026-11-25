@@ -7,9 +7,12 @@
   <meta name="theme-color" content="#102b46">
   <title>Portal SPPG Kuranji 2</title>
 
+  <!-- Font Awesome (ikon). Tampil di Apps Script maupun GitHub/Vercel -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
   <script>
     // URL Web App Apps Script (berakhiran /exec). Dipakai hanya saat dibuka dari GitHub/Vercel.
-    const API_URL = "https://script.google.com/macros/s/AKfycbxu1zfSkzKfyeQTOexHM9h5p3-JzFqCucAsNLL1SJRjDVNzvTt12UnjhABrUDmMk9sf7g/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbzMAPvO0bGp_zIGLzct-lM0VSHAhv2fOwMR5pjoaETXL6Ysy8nQZ795i6ED1rwn7awTDQ/exec";
 
     // Di Apps Script, google.script.run sudah ada dan blok ini tidak aktif.
     if (!(window.google && google.script && google.script.run)) {
@@ -43,18 +46,30 @@
   <style>
     :root{--navy:#102b46;--navy2:#194a70;--blue:#28658d;--ink:#172b3e;--muted:#748394;--line:#e5ebf0;--bg:#f4f7fa;--white:#fff;--green:#31a879;--shadow:0 12px 35px rgba(23,49,72,.08)}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
-    button,input,textarea,select{font:inherit}.sidebar{position:fixed;inset:0 auto 0 0;width:258px;background:var(--navy);color:#fff;padding:25px 18px 18px;display:flex;flex-direction:column;z-index:20;transition:transform .25s}
+    button,input,textarea,select{font:inherit}
+    .sidebar{position:fixed;inset:0 auto 0 0;width:258px;background:var(--navy);color:#fff;padding:25px 18px 18px;display:flex;flex-direction:column;z-index:20;transition:transform .25s}
     .brand{display:flex;align-items:center;gap:11px;padding:0 7px 34px}.brand-mark{width:43px;height:43px;border-radius:13px;background:linear-gradient(145deg,#fff,#cfe4f1);color:var(--navy);display:grid;place-items:center;font-weight:900;font-size:14px}.brand-copy{display:flex;flex-direction:column;gap:4px}.brand-copy strong{font-size:12px;letter-spacing:.6px}.brand-copy small{font-size:9px;letter-spacing:2px;color:#a9bfd1}
-    .side-label{font-size:9px;font-weight:800;letter-spacing:1.7px;color:#7894aa;padding:0 12px 12px}.nav-list{display:grid;gap:6px}.nav-item{border:0;background:transparent;color:#c5d4df;border-radius:10px;padding:12px 13px;display:flex;align-items:center;gap:13px;text-align:left;font-size:12px;font-weight:700;cursor:pointer;width:100%}.nav-item:hover{background:#1b3d5b;color:#fff}.nav-item.active{background:#fff;color:var(--navy)}.nav-icon{font-size:19px;width:22px;text-align:center}
+    .side-label{font-size:9px;font-weight:800;letter-spacing:1.7px;color:#7894aa;padding:0 12px 12px}.nav-list{display:grid;gap:6px}.nav-item{border:0;background:transparent;color:#c5d4df;border-radius:10px;padding:12px 13px;display:flex;align-items:center;gap:13px;text-align:left;font-size:12px;font-weight:700;cursor:pointer;width:100%}.nav-item:hover{background:#1b3d5b;color:#fff}.nav-item.active{background:#fff;color:var(--navy)}.nav-icon{width:22px;text-align:center;font-size:16px;display:inline-flex;justify-content:center}
     .sidebar-bottom{margin-top:auto}.help-card{border:1px solid #31516c;background:#173752;border-radius:12px;padding:14px;margin-bottom:19px}.help-card strong{display:block;font-size:12px;margin:7px 0 5px}.help-card p{font-size:10px;line-height:1.6;color:#b5c7d5;margin:0}.side-foot{border-top:1px solid #294760;padding:15px 7px 0;color:#8da7ba;font-size:10px;line-height:1.7}
     .main{margin-left:258px;min-height:100vh}.topbar{height:70px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 34px;position:sticky;top:0;z-index:10}.crumb{font-size:12px;color:#83919e}.crumb b{color:#c3ccd4;padding:0 9px}.crumb strong{color:#263d52}.top-right{display:flex;align-items:center;gap:9px;color:#718293;font-size:10px}.dot{width:7px;height:7px;border-radius:50%;background:#31b77d;box-shadow:0 0 0 4px #31b77d20}.user{margin-left:12px;padding-left:14px;border-left:1px solid var(--line);font-weight:bold;color:#42576a}
     .content{padding:30px 34px 22px;max-width:1600px;margin:auto}.hero{min-height:230px;border-radius:19px;background:linear-gradient(115deg,#102b46,#194a70 67%,#2d7190);color:#fff;padding:34px 39px;position:relative;overflow:hidden;display:flex;align-items:center;box-shadow:var(--shadow)}.hero-copy{max-width:560px;position:relative;z-index:2}.eyebrow{font-size:9px;font-weight:800;letter-spacing:1.8px;color:#7392aa}.hero .eyebrow{color:#a8c5d9}.hero h1{font-size:35px;line-height:1.16;margin:13px 0;font-weight:800}.hero h1 em{font-style:normal;color:#a9dfce}.hero p{font-size:12px;line-height:1.8;color:#d1e0eb;max-width:470px;margin:0}.hero-meta{margin-top:22px;font-size:10px;color:#c0d5e4}.hero-meta span{display:inline-block;width:7px;height:7px;border-radius:50%;background:#74dbad;margin-right:8px}.hero-art{position:absolute;right:65px;top:30px;width:245px;height:170px;border-radius:15px;background:#ffffff12;border:1px solid #ffffff20;transform:rotate(-6deg);padding:17px}.art-head{height:8px;width:85%;background:#d7e7ef80;border-radius:8px;margin-bottom:16px}.art-row{height:9px;background:#d7e7ef40;border-radius:8px;margin:10px 0;width:90%}.art-row.short{width:55%}.art-cards{display:flex;gap:8px;margin-top:18px}.art-cards i{height:40px;flex:1;background:#d8eee5;border-radius:7px}.art-cards i:nth-child(2){background:#dce9f5}.art-cards i:nth-child(3){background:#f1e8d8}
     .section-head{display:flex;justify-content:space-between;align-items:end;margin:32px 0 17px}.section-head h2{font-size:19px;margin:7px 0 5px}.section-head p{font-size:11px;color:var(--muted);margin:0}.count{text-align:right;color:#8b9baa}.count strong{display:block;font-size:24px;color:#254c69}.count span{font-size:8px;font-weight:800;letter-spacing:1.5px}
-    .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.card{background:#fff;border:1px solid #e8edf1;border-radius:14px;padding:19px;min-height:194px;display:flex;flex-direction:column;box-shadow:0 5px 18px #19344c08;transition:.2s}.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}.card-top{display:flex;justify-content:space-between;align-items:center}.symbol{width:42px;height:42px;border-radius:12px;background:#e9f1f7;color:#245879;display:grid;place-items:center;font-size:21px}.tag{font-size:8px;font-weight:bold;letter-spacing:.8px;color:#438a70;background:#e6f5ef;padding:6px 8px;border-radius:20px}.card h3{font-size:13px;margin:15px 0 7px}.card p{font-size:10px;line-height:1.65;color:#778797;margin:0 0 16px;flex:1}.card-bottom{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #edf1f4;padding-top:12px;gap:8px}.host{font-size:9px;color:#9aa7b2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.btn{border:0;background:#edf4f8;color:#225575;border-radius:8px;padding:8px 11px;font-size:10px;font-weight:700;cursor:pointer}.btn:hover{filter:brightness(.97)}.btn:disabled{opacity:.6;cursor:default}.btn-primary{background:#173f60;color:white}.btn-danger{background:#fff0f0;color:#b43e3e}.notice{margin-top:22px;padding:14px 16px;border:1px solid #e0eae7;background:#f5faf8;border-radius:11px;display:flex;gap:12px;align-items:center}.notice b{font-size:11px}.notice p{margin:4px 0 0;color:#7d8c96;font-size:10px;line-height:1.5}.footer{padding:24px 0 5px;color:#a0acb6;font-size:9px}
-    .workspace{min-height:calc(100vh - 120px)}.work-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin:0 0 15px}.work-title{display:flex;align-items:center;gap:12px}.work-title h1{font-size:19px;margin:4px 0}.work-title p{font-size:10px;color:#83919e;margin:0}.work-symbol{width:45px;height:45px;border-radius:12px;background:#e9f1f7;color:#245879;display:grid;place-items:center;font-size:21px}.tools{display:flex;gap:7px;flex-wrap:wrap}.tool{border:1px solid #dfe7ed;background:#fff;border-radius:8px;padding:9px 11px;font-size:10px;font-weight:bold;color:#4d6476;cursor:pointer}.tool.primary{background:#173f60;color:white;border-color:#173f60}.embed-note{display:flex;gap:9px;background:#fff9e9;border:1px solid #f2e6c6;color:#816b39;border-radius:9px;padding:10px 13px;font-size:10px;line-height:1.55;margin-bottom:11px}.frame-wrap{height:calc(100vh - 255px);min-height:450px;background:white;border:1px solid #e0e7ed;border-radius:11px;overflow:hidden;position:relative}.frame-wrap iframe{border:0;width:100%;height:100%;background:#fff}.loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#3d5d75;background:#fff;z-index:2}.loading.hide{display:none}.spinner{width:27px;height:27px;border:3px solid #e5edf2;border-top-color:#28658d;border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.work-foot{display:flex;justify-content:space-between;gap:10px;margin-top:9px;color:#96a2ac;font-size:9px}.hidden{display:none!important}
-    .modal-backdrop{position:fixed;inset:0;background:#071a2b88;z-index:50;display:grid;place-items:center;padding:16px}.modal{background:white;border-radius:16px;width:min(520px,100%);padding:22px;box-shadow:0 25px 80px #071a2b55;max-height:90vh;overflow:auto}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}.modal-head h2{font-size:17px;margin:0}.x{border:0;background:#f0f3f6;border-radius:8px;width:32px;height:32px;font-size:19px;cursor:pointer}.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:10px;font-weight:bold;color:#52687a}.field input,.field textarea{border:1px solid #dce5eb;border-radius:8px;padding:11px;font-size:12px;outline:none;width:100%}.field input:focus,.field textarea:focus{border-color:#4d8bb1;box-shadow:0 0 0 3px #4d8bb11c}.field textarea{min-height:70px;resize:vertical}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px}.manage-item{display:flex;align-items:center;gap:8px;border:1px solid #e7edf1;border-radius:9px;padding:10px;margin:7px 0}.manage-item .meta{flex:1;min-width:0}.manage-item .meta b{font-size:11px}.manage-item .meta small{display:block;font-size:9px;color:#8a98a6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.manage-item .icon{font-size:19px}.toast{position:fixed;right:20px;bottom:20px;background:#173f60;color:white;padding:12px 16px;border-radius:9px;font-size:11px;box-shadow:var(--shadow);z-index:80;max-width:calc(100% - 40px)}.toast.error{background:#a63c3c}.hamburger,.close-menu,.scrim{display:none}
+    .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.card{background:#fff;border:1px solid #e8edf1;border-radius:14px;padding:19px;min-height:194px;display:flex;flex-direction:column;box-shadow:0 5px 18px #19344c08;transition:.2s}.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}.card-top{display:flex;justify-content:space-between;align-items:center}.symbol{width:42px;height:42px;border-radius:12px;background:#e9f1f7;color:#245879;display:grid;place-items:center;font-size:18px}.tag{font-size:8px;font-weight:bold;letter-spacing:.8px;color:#438a70;background:#e6f5ef;padding:6px 8px;border-radius:20px}.card h3{font-size:13px;margin:15px 0 7px}.card p{font-size:10px;line-height:1.65;color:#778797;margin:0 0 16px;flex:1}.card-bottom{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #edf1f4;padding-top:12px;gap:8px}.host{font-size:9px;color:#9aa7b2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.btn{border:0;background:#edf4f8;color:#225575;border-radius:8px;padding:8px 11px;font-size:10px;font-weight:700;cursor:pointer}.btn:hover{filter:brightness(.97)}.btn:disabled{opacity:.6;cursor:default}.btn-primary{background:#173f60;color:white}.btn-danger{background:#fff0f0;color:#b43e3e}.notice{margin-top:22px;padding:14px 16px;border:1px solid #e0eae7;background:#f5faf8;border-radius:11px;display:flex;gap:12px;align-items:center}.notice b{font-size:11px}.notice p{margin:4px 0 0;color:#7d8c96;font-size:10px;line-height:1.5}.footer{padding:24px 0 5px;color:#a0acb6;font-size:9px}
+    .workspace{min-height:calc(100vh - 120px)}.work-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin:0 0 15px}.work-title{display:flex;align-items:center;gap:12px}.work-title h1{font-size:19px;margin:4px 0}.work-title p{font-size:10px;color:#83919e;margin:0}.work-symbol{width:45px;height:45px;border-radius:12px;background:#e9f1f7;color:#245879;display:grid;place-items:center;font-size:19px}.tools{display:flex;gap:7px;flex-wrap:wrap}.tool{border:1px solid #dfe7ed;background:#fff;border-radius:8px;padding:9px 11px;font-size:10px;font-weight:bold;color:#4d6476;cursor:pointer}.tool.primary{background:#173f60;color:white;border-color:#173f60}.embed-note{display:flex;gap:9px;background:#fff9e9;border:1px solid #f2e6c6;color:#816b39;border-radius:9px;padding:10px 13px;font-size:10px;line-height:1.55;margin-bottom:11px}.frame-wrap{height:calc(100vh - 255px);min-height:450px;background:white;border:1px solid #e0e7ed;border-radius:11px;overflow:hidden;position:relative}.frame-wrap iframe{border:0;width:100%;height:100%;background:#fff}.loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#3d5d75;background:#fff;z-index:2}.loading.hide{display:none}.spinner{width:27px;height:27px;border:3px solid #e5edf2;border-top-color:#28658d;border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.work-foot{display:flex;justify-content:space-between;gap:10px;margin-top:9px;color:#96a2ac;font-size:9px}.hidden{display:none!important}
+    .modal-backdrop{position:fixed;inset:0;background:#071a2b88;z-index:50;display:grid;place-items:center;padding:16px}.modal{background:white;border-radius:16px;width:min(520px,100%);padding:22px;box-shadow:0 25px 80px #071a2b55;max-height:90vh;overflow:auto}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}.modal-head h2{font-size:17px;margin:0}.x{border:0;background:#f0f3f6;border-radius:8px;width:32px;height:32px;font-size:19px;cursor:pointer}.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:10px;font-weight:bold;color:#52687a}.field input,.field textarea{border:1px solid #dce5eb;border-radius:8px;padding:11px;font-size:12px;outline:none;width:100%}.field input:focus,.field textarea:focus{border-color:#4d8bb1;box-shadow:0 0 0 3px #4d8bb11c}.field textarea{min-height:70px;resize:vertical}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px}.manage-item{display:flex;align-items:center;gap:8px;border:1px solid #e7edf1;border-radius:9px;padding:10px;margin:7px 0}.manage-item .meta{flex:1;min-width:0}.manage-item .meta b{font-size:11px}.manage-item .meta small{display:block;font-size:9px;color:#8a98a6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.manage-item .icon{width:34px;height:34px;border-radius:9px;background:#e9f1f7;color:#245879;display:grid;place-items:center;font-size:15px;flex-shrink:0}
+    /* Tombol lihat password */
+    .pw-wrap{position:relative}.pw-wrap input{padding-right:44px!important}
+    .pw-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:#6b7f90;width:32px;height:32px;border-radius:7px;cursor:pointer;display:grid;place-items:center;font-size:14px}.pw-toggle:hover{background:#eef3f7;color:#173f60}.pw-toggle:focus-visible{outline:2px solid #4d8bb1}
+    /* Pemilih ikon */
+    .icon-head{display:flex;gap:8px;align-items:center}.icon-preview{width:44px;height:44px;border-radius:10px;background:#e9f1f7;color:#245879;display:grid;place-items:center;font-size:19px;flex-shrink:0}.icon-head input{flex:1}
+    .icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:6px;max-height:200px;overflow:auto;border:1px solid #dce5eb;border-radius:8px;padding:8px;margin-top:8px}
+    .icon-opt{border:1px solid #e3eaf0;background:#f7fafc;border-radius:8px;height:42px;cursor:pointer;color:#245879;display:grid;place-items:center;font-size:16px}
+    .icon-opt:hover{background:#eaf2f8}.icon-opt.sel{background:#173f60;color:#fff;border-color:#173f60}
+    .icon-empty{grid-column:1/-1;font-size:11px;color:#8a98a6;text-align:center;padding:10px}
+    .toast{position:fixed;right:20px;bottom:20px;background:#173f60;color:white;padding:12px 16px;border-radius:9px;font-size:11px;box-shadow:var(--shadow);z-index:80;max-width:calc(100% - 40px)}.toast.error{background:#a63c3c}
+    .hamburger,.close-menu,.scrim{display:none}
     @media(max-width:1050px){.content{padding:24px}.topbar{padding:0 24px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-art{right:15px;opacity:.7}}
-    @media(max-width:720px){.sidebar{transform:translateX(-100%);width:280px}.sidebar.open{transform:translateX(0)}.scrim.show{display:block;position:fixed;inset:0;background:#071a2b80;z-index:19}.main{margin-left:0}.topbar{height:61px;padding:0 15px;gap:12px}.hamburger{display:block;border:0;background:#eef3f7;border-radius:8px;padding:8px 10px;color:#214e6d}.top-right .status-text,.top-right .dot{display:none}.user{margin:0;padding:0;border:0}.content{padding:17px 14px}.hero{padding:26px 22px;min-height:225px}.hero h1{font-size:28px}.hero-art{right:-95px;opacity:.25}.section-head{margin-top:26px}.section-head h2{font-size:16px}.section-head p{max-width:250px;line-height:1.5}.count{display:none}.cards{grid-template-columns:1fr;gap:11px}.card{min-height:175px;padding:16px}.work-head{align-items:flex-start;flex-direction:column}.tools{width:100%}.tool{flex:1}.frame-wrap{height:calc(100dvh - 300px);min-height:400px}.work-foot{flex-direction:column}.close-menu{display:block;margin-left:auto;border:0;background:transparent;color:white;font-size:22px}.brand{padding-bottom:27px}.form-row{grid-template-columns:1fr}}
+    @media(max-width:720px){.sidebar{transform:translateX(-100%);width:280px}.sidebar.open{transform:translateX(0)}.scrim.show{display:block;position:fixed;inset:0;background:#071a2b80;z-index:19}.main{margin-left:0}.topbar{height:61px;padding:0 15px;gap:12px}.hamburger{display:block;border:0;background:#eef3f7;border-radius:8px;padding:8px 10px;color:#214e6d}.top-right .status-text,.top-right .dot{display:none}.user{margin:0;padding:0;border:0}.content{padding:17px 14px}.hero{padding:26px 22px;min-height:225px}.hero h1{font-size:28px}.hero-art{right:-95px;opacity:.25}.section-head{margin-top:26px}.section-head h2{font-size:16px}.section-head p{max-width:250px;line-height:1.5}.count{display:none}.cards{grid-template-columns:1fr;gap:11px}.card{min-height:175px;padding:16px}.work-head{align-items:flex-start;flex-direction:column}.tools{width:100%}.tool{flex:1}.frame-wrap{height:calc(100dvh - 300px);min-height:400px}.work-foot{flex-direction:column}.close-menu{display:block;margin-left:auto;border:0;background:transparent;color:white;font-size:22px}.brand{padding-bottom:27px}.form-row{grid-template-columns:1fr}.icon-grid{grid-template-columns:repeat(auto-fill,minmax(40px,1fr))}}
   </style>
 </head>
 <body>
@@ -109,14 +124,14 @@
 
       <section id="workspaceView" class="workspace hidden">
         <div class="work-head">
-          <div class="work-title"><div class="work-symbol" id="activeIcon">▣</div><div><div class="eyebrow">APLIKASI SPPG</div><h1 id="activeName">Aplikasi</h1><p id="activeDescription"></p></div></div>
+          <div class="work-title"><div class="work-symbol" id="activeIcon"></div><div><div class="eyebrow">APLIKASI SPPG</div><h1 id="activeName">Aplikasi</h1><p id="activeDescription"></p></div></div>
           <div class="tools">
-            <button class="tool" id="reloadBtn">↻ Muat ulang</button>
-            <button class="tool" id="fullscreenBtn">⛶ Layar penuh</button>
-            <button class="tool primary" id="directBtn">↗ Buka langsung</button>
+            <button class="tool" id="reloadBtn"><i class="fa-solid fa-rotate-right"></i> Muat ulang</button>
+            <button class="tool" id="fullscreenBtn"><i class="fa-solid fa-expand"></i> Layar penuh</button>
+            <button class="tool primary" id="directBtn"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka langsung</button>
           </div>
         </div>
-        <div class="embed-note"><span>ⓘ</span><span>Jika aplikasi tidak tampil, kemungkinan website tujuan melarang iframe melalui pengaturan keamanan. Gunakan tombol <b>Buka langsung</b> sebagai alternatif pada tab yang sama.</span></div>
+        <div class="embed-note"><span><i class="fa-solid fa-circle-info"></i></span><span>Jika aplikasi tidak tampil, kemungkinan website tujuan melarang iframe melalui pengaturan keamanan. Gunakan tombol <b>Buka langsung</b> sebagai alternatif pada tab yang sama.</span></div>
         <div class="frame-wrap" id="frameWrap">
           <div class="loading" id="loading"><div class="spinner"></div><b style="font-size:12px">Menghubungkan aplikasi...</b><small style="font-size:10px;color:#93a0aa">Mohon tunggu beberapa saat</small></div>
           <iframe id="appFrame" title="Aplikasi SPPG" src="about:blank" allow="clipboard-read; clipboard-write; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
@@ -131,47 +146,55 @@
     <div class="modal">
       <div class="modal-head"><h2 id="modalTitle">Kelola aplikasi</h2><button class="x" id="closeModal" aria-label="Tutup">×</button></div>
 
-      <!-- 1. Login username & password -->
+      <!-- Login -->
       <div id="loginStep">
         <p style="font-size:11px;color:#718293;line-height:1.6">Login administrator untuk mengelola tautan aplikasi portal.</p>
         <div class="field"><label for="adminUsername">USERNAME</label><input id="adminUsername" autocomplete="username" placeholder="Username admin"></div>
-        <div class="field"><label for="adminPassword">PASSWORD</label><input id="adminPassword" type="password" autocomplete="current-password" placeholder="Password admin"></div>
+        <div class="field"><label for="adminPassword">PASSWORD</label>
+          <div class="pw-wrap"><input id="adminPassword" type="password" autocomplete="current-password" placeholder="Password admin"><button type="button" class="pw-toggle" data-toggle="adminPassword" aria-label="Tampilkan password" aria-pressed="false"><i class="fa-regular fa-eye"></i></button></div>
+        </div>
         <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn" id="forgotOpen">Lupa password?</button></div>
         <div class="modal-actions"><button class="btn" id="cancelLogin">Batal</button><button class="btn btn-primary" id="loginButton">Login</button></div>
       </div>
 
-      <!-- 2. Lupa password via email -->
+      <!-- Lupa password -->
       <div id="forgotStep" class="hidden">
         <p style="font-size:11px;color:#718293;line-height:1.6">Masukkan email pemulihan admin. Kode OTP akan dikirim ke email tersebut dan berlaku 10 menit.</p>
         <div class="field"><label for="resetEmail">EMAIL PEMULIHAN</label><input id="resetEmail" type="email" autocomplete="email" placeholder="email-admin@contoh.com"></div>
         <div class="modal-actions"><button class="btn" id="backLogin1">Kembali</button><button class="btn btn-primary" id="sendOtp">Kirim kode OTP</button></div>
         <div id="otpFields" class="hidden">
           <div class="field"><label for="resetOtp">KODE OTP</label><input id="resetOtp" inputmode="numeric" maxlength="6" placeholder="6 digit kode dari email"></div>
-          <div class="field"><label for="resetNewPassword">PASSWORD BARU</label><input id="resetNewPassword" type="password" autocomplete="new-password" placeholder="Minimal 10 karakter"></div>
+          <div class="field"><label for="resetNewPassword">PASSWORD BARU</label>
+            <div class="pw-wrap"><input id="resetNewPassword" type="password" autocomplete="new-password" placeholder="Minimal 10 karakter"><button type="button" class="pw-toggle" data-toggle="resetNewPassword" aria-label="Tampilkan password" aria-pressed="false"><i class="fa-regular fa-eye"></i></button></div>
+          </div>
           <div class="modal-actions"><button class="btn btn-primary" id="resetPasswordButton">Reset password</button></div>
         </div>
       </div>
 
-      <!-- 3. Kelola (setelah login) -->
+      <!-- Kelola (setelah login) -->
       <div id="manageStep" class="hidden">
         <div class="toolbar">
-          <button class="btn btn-primary" id="newAppBtn">＋ Tambah aplikasi</button>
-          <button class="btn" id="changePasswordOpen">Ubah password</button>
-          <button class="btn" id="adminLogout">Keluar</button>
+          <button class="btn btn-primary" id="newAppBtn"><i class="fa-solid fa-plus"></i> Tambah aplikasi</button>
+          <button class="btn" id="changePasswordOpen"><i class="fa-solid fa-key"></i> Ubah password</button>
+          <button class="btn" id="adminLogout"><i class="fa-solid fa-right-from-bracket"></i> Keluar</button>
         </div>
 
-        <!-- 3a. Ubah password -->
+        <!-- Ubah password -->
         <div id="changePasswordForm" class="hidden">
-          <div class="field"><label for="oldAdminPassword">PASSWORD LAMA</label><input id="oldAdminPassword" type="password" autocomplete="current-password"></div>
-          <div class="field"><label for="newAdminPassword">PASSWORD BARU</label><input id="newAdminPassword" type="password" autocomplete="new-password" placeholder="Minimal 10 karakter"></div>
+          <div class="field"><label for="oldAdminPassword">PASSWORD LAMA</label>
+            <div class="pw-wrap"><input id="oldAdminPassword" type="password" autocomplete="current-password"><button type="button" class="pw-toggle" data-toggle="oldAdminPassword" aria-label="Tampilkan password" aria-pressed="false"><i class="fa-regular fa-eye"></i></button></div>
+          </div>
+          <div class="field"><label for="newAdminPassword">PASSWORD BARU</label>
+            <div class="pw-wrap"><input id="newAdminPassword" type="password" autocomplete="new-password" placeholder="Minimal 10 karakter"><button type="button" class="pw-toggle" data-toggle="newAdminPassword" aria-label="Tampilkan password" aria-pressed="false"><i class="fa-regular fa-eye"></i></button></div>
+          </div>
           <div class="modal-actions"><button class="btn" id="cancelChangePassword">Batal</button><button class="btn btn-primary" id="saveNewPassword">Simpan password</button></div>
         </div>
 
-        <!-- 3b. Daftar link -->
+        <!-- Daftar link -->
         <div id="manageList"></div>
         <div class="modal-actions" id="manageFooter"><button class="btn" id="doneManage">Selesai</button></div>
 
-        <!-- 3c. Form link -->
+        <!-- Form link -->
         <div id="appForm" class="hidden">
           <div class="form-row">
             <div class="field"><label for="fName">Nama aplikasi *</label><input id="fName" maxlength="100" placeholder="Contoh: Sistem Data PM"></div>
@@ -179,10 +202,18 @@
           </div>
           <div class="field"><label for="fUrl">URL website (HTTPS) *</label><input id="fUrl" type="url" placeholder="https://contoh.vercel.app/"></div>
           <div class="field"><label for="fDescription">Deskripsi</label><textarea id="fDescription" maxlength="300" placeholder="Keterangan singkat aplikasi"></textarea></div>
-          <div class="form-row">
-            <div class="field"><label for="fIcon">Ikon / simbol</label><input id="fIcon" maxlength="8" value="▣"></div>
-            <div class="field"><label for="fOrder">Urutan tampil</label><input id="fOrder" type="number" min="1" value="1"></div>
+
+          <div class="field">
+            <label for="iconSearch">Ikon</label>
+            <div class="icon-head">
+              <div class="icon-preview" id="iconPreview" aria-hidden="true"></div>
+              <input id="iconSearch" placeholder="Cari ikon, contoh: buku, grafik">
+            </div>
+            <div class="icon-grid" id="iconGrid" role="listbox" aria-label="Pilih ikon"></div>
+            <input type="hidden" id="fIcon" value="fa-solid fa-table-cells">
           </div>
+
+          <div class="field" style="max-width:200px"><label for="fOrder">Urutan tampil</label><input id="fOrder" type="number" min="1" value="1"></div>
           <div class="modal-actions"><button class="btn" id="cancelForm">Batal</button><button class="btn btn-primary" id="saveApp">Simpan link</button></div>
         </div>
       </div>
@@ -197,8 +228,31 @@
     let adminToken = "";
     let editingId = null;
 
+    const DEFAULT_ICON = "fa-solid fa-table-cells";
+
+    // Pilihan ikon Font Awesome. Nilai disimpan sebagai "fa-solid fa-<nama>".
+    const ICONS = [
+      ["house","Rumah"],["users","Pengguna"],["user-doctor","Tenaga kesehatan"],["baby","Bayi"],
+      ["person-breastfeeding","Ibu menyusui"],["child","Anak"],["school","Sekolah"],["hospital","Puskesmas / RS"],
+      ["notes-medical","Catatan medis"],["heart-pulse","Kesehatan"],["hand-holding-heart","Bantuan"],["utensils","Makan"],
+      ["bowl-food","Mangkuk"],["bowl-rice","Nasi"],["apple-whole","Buah"],["carrot","Sayur"],
+      ["egg","Telur"],["fish","Ikan"],["cake-candles","Kue"],["mug-hot","Minuman"],
+      ["warehouse","Gudang"],["truck","Distribusi"],["boxes-stacked","Stok"],["cart-shopping","Belanja"],
+      ["store","Toko"],["chart-column","Grafik"],["chart-pie","Diagram"],["chart-line","Tren"],
+      ["table","Tabel"],["table-cells","Kisi"],["file-lines","Dokumen"],["file-invoice","Laporan"],
+      ["clipboard-list","Daftar"],["clipboard-check","Verifikasi"],["list-check","Checklist"],["database","Database"],
+      ["folder-open","Folder"],["calendar-days","Jadwal"],["id-card","Identitas"],["address-book","Kontak"],
+      ["map-location-dot","Peta"],["location-dot","Lokasi"],["scale-balanced","Timbangan"],["shield-halved","Keamanan"],
+      ["gears","Pengaturan"],["gear","Setting"],["magnifying-glass","Cari"],["bell","Notifikasi"],
+      ["circle-info","Info"],["book-open","Panduan"],["cloud","Cloud"],["globe","Web"],
+      ["link","Tautan"],["layer-group","Modul"],["cubes","Kubus"],["cube","Kotak"],
+      ["leaf","Daun"],["seedling","Tumbuh"]
+    ];
+
     const $ = id => document.getElementById(id);
     const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+    // Ikon Font Awesome atau teks Unicode lama
+    const iconHtml = icon => icon && icon.startsWith("fa-") ? `<i class="${esc(icon)}" aria-hidden="true"></i>` : esc(icon || "▣");
     const rpc = (fn, ...args) => new Promise((resolve, reject) =>
       google.script.run.withSuccessHandler(resolve).withFailureHandler(reject)[fn](...args)
     );
@@ -238,11 +292,11 @@
       $("appCount").textContent = String(apps.length).padStart(2, "0");
     }
     function renderNav() {
-      const items = [{ id: "home", name: "Beranda", icon: "⌂" }].concat(apps);
+      const items = [{ id: "home", name: "Beranda", icon: "fa-solid fa-house" }].concat(apps);
       $("navList").innerHTML = items.map(a =>
-        `<button class="nav-item ${activeId === a.id ? "active" : ""}" data-id="${esc(a.id)}"><span class="nav-icon">${esc(a.icon)}</span><span>${esc(a.name)}</span></button>`
+        `<button class="nav-item ${activeId === a.id ? "active" : ""}" data-id="${esc(a.id)}"><span class="nav-icon">${iconHtml(a.icon)}</span><span>${esc(a.name)}</span></button>`
       ).join("") +
-        `<button class="nav-item" id="manageLinks"><span class="nav-icon">⚙</span><span>Kelola Link</span></button>`;
+        `<button class="nav-item" id="manageLinks"><span class="nav-icon"><i class="fa-solid fa-gear"></i></span><span>Kelola Link</span></button>`;
       $("navList").querySelectorAll("[data-id]").forEach(b => b.addEventListener("click", () => navigate(b.dataset.id)));
       $("manageLinks").addEventListener("click", openAdmin);
     }
@@ -252,7 +306,7 @@
         return;
       }
       $("appCards").innerHTML = apps.map(a =>
-        `<article class="card"><div class="card-top"><div class="symbol">${esc(a.icon)}</div><span class="tag">${esc(a.category || "APLIKASI")}</span></div><h3>${esc(a.name)}</h3><p>${esc(a.description || "Aplikasi SPPG Kuranji 2")}</p><div class="card-bottom"><span class="host">${esc(hostOf(a.url))}</span><button class="btn" data-open="${esc(a.id)}">Buka aplikasi ↗</button></div></article>`
+        `<article class="card"><div class="card-top"><div class="symbol">${iconHtml(a.icon)}</div><span class="tag">${esc(a.category || "APLIKASI")}</span></div><h3>${esc(a.name)}</h3><p>${esc(a.description || "Aplikasi SPPG Kuranji 2")}</p><div class="card-bottom"><span class="host">${esc(hostOf(a.url))}</span><button class="btn" data-open="${esc(a.id)}">Buka aplikasi ↗</button></div></article>`
       ).join("");
       $("appCards").querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", () => navigate(b.dataset.open)));
     }
@@ -270,7 +324,7 @@
       if (app) {
         $("activeName").textContent = app.name;
         $("activeDescription").textContent = app.description || "";
-        $("activeIcon").textContent = app.icon;
+        $("activeIcon").innerHTML = iconHtml(app.icon);
         $("activeUrl").textContent = app.url;
         $("directBtn").onclick = () => { window.top.location.href = app.url; };
         $("reloadBtn").onclick = () => loadFrame(app, true);
@@ -315,7 +369,6 @@
       ["loginStep", "forgotStep", "manageStep"].forEach(id => $(id).classList.toggle("hidden", id !== panel));
     }
     function showManageView(view) {
-      // view: "list" | "form" | "password"
       $("manageList").classList.toggle("hidden", view !== "list");
       $("manageFooter").classList.toggle("hidden", view !== "list");
       $("appForm").classList.toggle("hidden", view !== "form");
@@ -336,6 +389,45 @@
     }
     function closeAdmin() {
       $("adminModal").classList.add("hidden");
+      document.querySelectorAll(".pw-wrap input").forEach(i => { i.type = "password"; });
+      document.querySelectorAll(".pw-toggle").forEach(b => setPwButton(b, false));
+    }
+
+    /* ---------- Tombol lihat password ---------- */
+    function setPwButton(btn, visible) {
+      btn.innerHTML = `<i class="fa-regular ${visible ? "fa-eye-slash" : "fa-eye"}"></i>`;
+      btn.setAttribute("aria-label", visible ? "Sembunyikan password" : "Tampilkan password");
+      btn.setAttribute("aria-pressed", String(visible));
+    }
+    document.querySelectorAll(".pw-toggle").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const input = $(btn.dataset.toggle);
+        const show = input.type === "password";
+        input.type = show ? "text" : "password";
+        setPwButton(btn, show);
+        input.focus();
+      });
+    });
+
+    /* ---------- Pemilih ikon ---------- */
+    function renderIconGrid(query = "") {
+      const q = query.trim().toLowerCase();
+      const selected = $("fIcon").value;
+      const list = ICONS.filter(([name, label]) => !q || name.includes(q) || label.toLowerCase().includes(q));
+      $("iconGrid").innerHTML = list.length
+        ? list.map(([name, label]) => {
+            const value = "fa-solid fa-" + name;
+            const isSel = value === selected;
+            return `<button type="button" class="icon-opt ${isSel ? "sel" : ""}" data-icon="${value}" title="${esc(label)}" aria-label="${esc(label)}" aria-selected="${isSel}" role="option"><i class="${value}"></i></button>`;
+          }).join("")
+        : '<div class="icon-empty">Ikon tidak ditemukan.</div>';
+      $("iconGrid").querySelectorAll("[data-icon]").forEach(b => b.addEventListener("click", () => setIcon(b.dataset.icon)));
+    }
+    function setIcon(value) {
+      const v = value && value.startsWith("fa-") ? value : DEFAULT_ICON;
+      $("fIcon").value = v;
+      $("iconPreview").innerHTML = iconHtml(v);
+      renderIconGrid($("iconSearch").value);
     }
 
     /* ---------- Login ---------- */
@@ -438,20 +530,21 @@
     /* ---------- CRUD link ---------- */
     function renderManageList() {
       $("manageList").innerHTML = apps.map(a =>
-        `<div class="manage-item"><div class="icon">${esc(a.icon)}</div><div class="meta"><b>${esc(a.name)}</b><small>${esc(a.url)}</small></div><button class="btn" data-edit="${esc(a.id)}">Edit</button><button class="btn btn-danger" data-delete="${esc(a.id)}">Hapus</button></div>`
+        `<div class="manage-item"><div class="icon">${iconHtml(a.icon)}</div><div class="meta"><b>${esc(a.name)}</b><small>${esc(a.url)}</small></div><button class="btn" data-edit="${esc(a.id)}">Edit</button><button class="btn btn-danger" data-delete="${esc(a.id)}">Hapus</button></div>`
       ).join("") || '<p style="font-size:11px;color:#82909c">Belum ada link.</p>';
       $("manageList").querySelectorAll("[data-edit]").forEach(b => b.addEventListener("click", () => showForm(b.dataset.edit)));
       $("manageList").querySelectorAll("[data-delete]").forEach(b => b.addEventListener("click", () => removeApp(b.dataset.delete)));
     }
     function showForm(id = null) {
       editingId = id;
-      const a = apps.find(x => x.id === id) || { name: "", category: "Aplikasi", url: "", description: "", icon: "▣", order: apps.length + 1 };
+      const a = apps.find(x => x.id === id) || { name: "", category: "Aplikasi", url: "", description: "", icon: DEFAULT_ICON, order: apps.length + 1 };
       $("fName").value = a.name;
       $("fCategory").value = a.category;
       $("fUrl").value = a.url;
       $("fDescription").value = a.description;
-      $("fIcon").value = a.icon;
       $("fOrder").value = a.order;
+      $("iconSearch").value = "";
+      setIcon(a.icon);
       showManageView("form");
     }
     function formPayload() {
@@ -518,7 +611,7 @@
     $("resetPasswordButton").addEventListener("click", doResetPassword);
 
     $("changePasswordOpen").addEventListener("click", openChangePassword);
-    $("cancelChangePassword").addEventListener("click", () => { showManageView("list"); });
+    $("cancelChangePassword").addEventListener("click", () => showManageView("list"));
     $("saveNewPassword").addEventListener("click", saveChangedPassword);
     $("adminLogout").addEventListener("click", logoutAdmin);
 
@@ -526,6 +619,7 @@
     $("doneManage").addEventListener("click", closeAdmin);
     $("cancelForm").addEventListener("click", () => showManageView("list"));
     $("saveApp").addEventListener("click", saveApp);
+    $("iconSearch").addEventListener("input", e => renderIconGrid(e.target.value));
 
     window.addEventListener("popstate", routeFromHash);
     $("year").textContent = new Date().getFullYear();
